@@ -1,0 +1,12 @@
+/* Neri — native-first Zen Browser tweaks
+ *
+ * Keep @import rules first. CSS ignores @import once any style rule
+ * appears above it, so a normal rule placed at the top will silently
+ * disable every imported tweak.
+ *
+ * Each feature is an independent module. The current module is the Glance
+ * preview (tweaks/10-glance.css); everything else is left native for now.
+ * New modules get their own numbered file and import, and are registered in
+ * MODIFICATIONS.md.
+ */
+@import url("tweaks/10-glance.css");

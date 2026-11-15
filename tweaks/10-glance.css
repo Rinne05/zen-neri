@@ -1,0 +1,45 @@
+/*
+ * Zen Glance floating preview
+ *
+ * Native Glance uses width: 80% and height: 100% of the tab panels, which
+ * makes the preview look tall and narrow. The goal here is a uniformly
+ * smaller copy of the main page: 90% width and 90% height keeps the panel's
+ * aspect ratio while leaving a visible margin on all four sides.
+ *
+ * The size is applied during the opening animation as well. That way the
+ * native arc grows directly to 90% x 90% instead of opening at the native
+ * 80% x 100% and then resizing at the end.
+ */
+
+:root {
+  --neri-glance-width: 90%;
+  --neri-glance-height: 90%;
+  --neri-glance-radius: 14px;
+}
+
+.browserSidebarContainer.zen-glance-overlay .browserContainer {
+  width: var(--neri-glance-width) !important;
+  height: var(--neri-glance-height) !important;
+}
+
+/*
+ * Positioning stays native. Zen's finished state is `position: relative` +
+ * `margin: auto`, which centers the 90% box in the overlay. Neri does not
+ * override either. Do not switch the preview to `position: absolute`: the
+ * Glance overlay can have a collapsed box while the browser is being laid
+ * out, which turns the preview into a thin strip.
+ */
+
+/* Match the preview card's radius. Zen already clips the stack. */
+.browserSidebarContainer.zen-glance-overlay .browserContainer .browserStack {
+  border-radius: var(--neri-glance-radius) !important;
+}
+
+/*
+ * Zen scales the parent page to 97% while Glance is open. That is the
+ * "main page shrinks" effect. Keep the Glance overlay's own motion, but
+ * leave the page behind it at its normal size.
+ */
+.browserSidebarContainer.zen-glance-background {
+  transform: none !important;
+}

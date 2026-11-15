@@ -1,0 +1,24 @@
+{
+  "id": "Neri",
+  "homepage": "https://github.com/Rinne05/zen-neri",
+  "author": "Rinne05",
+  "name": "Neri",
+  "description": "A native-first Zen Browser theme with a refined Glance preview.",
+  "version": "0.1.0",
+  "createdAt": "2026-11-14",
+  "updatedAt": "2026-11-15",
+  "readme": "https://raw.githubusercontent.com/Rinne05/zen-neri/main/README.md",
+  "style": {
+    "chrome": "userChrome.css",
+    "content": "userContent.css"
+  },
+  "scripts": {
+    "js/neri-glance.uc.js": {
+      "name": "Glance arc alignment",
+      "description": "Aligns Zen's Glance opening arc with the 90% x 90% preview.",
+      "include": ["chrome://browser/content/browser.xhtml"]
+    }
+  },
+  "tags": ["chrome", "minimal"],
+  "fork": ["zen"]
+}
