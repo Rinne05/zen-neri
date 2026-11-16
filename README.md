@@ -14,8 +14,11 @@
 2. 在自定义 mod 输入框中粘贴 `https://github.com/Rinne05/zen-neri`，点击添加。
 3. 启用 **Neri**，重启 Zen。
 
-> Neri 包含一个修正弧线的 userscript。如果 Sine 默认禁止脚本执行，需要先允许
-> （`sine.allow-unsafe-js = true`）再重启。
+> Neri 包含两个 userscript（Glance 弧线、右键菜单图标）。如果 Sine 默认禁止
+> 脚本执行，需要先允许（`sine.allow-unsafe-js = true`）再重启。
+
+> 右键菜单图标通过 `chrome.manifest` 提供本地 SVG；手动 `userChrome.css`
+> 安装不会注册这个 manifest，因此右键菜单图标不会生效。
 
 **手动安装到 sine-mods**
 
@@ -27,17 +30,19 @@
 ## 样式详情
 
 - **Glance 预览**：`90% × 90%` 尺寸、`14px` 圆角、背景页面不缩放，开合弧线对齐到居中预览。
+- **右键菜单图标**：使用 MingCute 图标集覆盖浏览器自身的右键菜单；网页内菜单和未知动态项保持原生。
 
 ## 其他
 
 - 功能范围：[MODIFICATIONS.md](MODIFICATIONS.md)
 - 开发流程：[DEVELOPMENT.md](DEVELOPMENT.md)
 - 仓库规范：[AGENTS.md](AGENTS.md)
-- 测试版本：**Zen Browser 1.24.1b**（Linux）
+- 测试版本：**Zen Browser 1.24.2b**（Linux）
 
 ### 参考
 
 - [Zen-Nebula](https://github.com/JustAdumbPrsn/Zen-Nebula) — 个人向 Zen 主题，作为视觉与结构参考
+- [MingCute](https://github.com/mingcute-design/mingcute-icons) — 右键菜单图标集（Apache-2.0）
 - [Sine](https://github.com/CosmoCreeper/Sine) — mod 加载与管理
 - [Catppuccin for Zen](https://github.com/catppuccin/zen-browser) — 配色主题参考
 - [sameerasw/zen-themes](https://github.com/sameerasw/zen-themes) — 个人 Zen 主题与 mod 集合

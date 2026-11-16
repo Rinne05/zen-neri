@@ -3,11 +3,12 @@
   "homepage": "https://github.com/Rinne05/zen-neri",
   "author": "Rinne05",
   "name": "Neri",
-  "description": "A native-first Zen Browser theme with a refined Glance preview.",
-  "version": "0.1.0",
+  "description": "A native-first Zen Browser theme with a refined Glance preview and MingCute context-menu icons.",
+  "version": "0.2.0",
   "createdAt": "2026-11-14",
-  "updatedAt": "2026-11-15",
+  "updatedAt": "2026-11-16",
   "readme": "https://raw.githubusercontent.com/Rinne05/zen-neri/main/README.md",
+  "chromeManifest": "chrome.manifest",
   "style": {
     "chrome": "userChrome.css",
     "content": "userContent.css"
@@ -16,6 +17,11 @@
     "js/neri-glance.uc.js": {
       "name": "Glance arc alignment",
       "description": "Aligns Zen's Glance opening arc with the 90% x 90% preview.",
+      "include": ["chrome://browser/content/browser.xhtml"]
+    },
+    "js/neri-context-icons.uc.js": {
+      "name": "Context menu icons",
+      "description": "Adds MingCute icons to Zen browser context menus.",
       "include": ["chrome://browser/content/browser.xhtml"]
     }
   },

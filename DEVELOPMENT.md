@@ -7,7 +7,7 @@ Neri 从本仓库开发。`<profile>/chrome/sine-mods/Neri` 下的文件夹是�
 唯一存在的地方。
 
 开发规范（作用域、验证、提交和文档规则）见 [AGENTS.md](AGENTS.md)。
-以下以当前 Glance 模块为例；新增模块沿用同一套流程。
+以下以现有 Glance 和右键菜单图标模块为例；新增模块沿用同一套流程。
 
 ## 为什么用 dev profile
 
@@ -26,12 +26,17 @@ Neri 从本仓库开发。`<profile>/chrome/sine-mods/Neri` 下的文件夹是�
 ```text
 <repo>/                              # git 根目录；这里就是 mod 文件夹
   theme.json
+  chrome.manifest                   # 本地图标包：chrome://neri/content/
   userChrome.css
   userContent.css
   tweaks/
     10-glance.css
+    20-context-icons.css
   js/
     neri-glance.uc.js
+    neri-context-icons.uc.js
+  icons/
+    mingcute/                       # 右键菜单使用的 SVG 和许可
   README.md
   DEVELOPMENT.md
   MODIFICATIONS.md
@@ -48,6 +53,26 @@ Neri 从本仓库开发。`<profile>/chrome/sine-mods/Neri` 下的文件夹是�
 ```
 
 `chrome.css` 和 `content.css` 每次 Sine 刷新都会重新生成，不要直接编辑。
+
+### 本地图标资源
+
+右键菜单图标放在 `icons/mingcute/`。Sine 的 user sheet 里，CSS 相对路径
+`url("../icons/...")` 会按 `chrome://global/` 解析，不能指向 mod 目录。因此
+仓库根目录的 `chrome.manifest` 注册了一个 content 包：
+
+```text
+content neri icons/
+```
+
+CSS 使用绝对 chrome URL：
+
+```css
+url("chrome://neri/content/mingcute/refresh.svg")
+```
+
+`theme.json` 中的 `"chromeManifest": "chrome.manifest"` 负责在 Sine 安装时
+登记它。下面的搭建脚本会把该字段合并进 dev profile 的 `mods.json`；手动搭建
+时需要自行补上，否则 `chrome://neri` 不存在。
 
 ## 一次性搭建
 
@@ -76,19 +101,25 @@ fi
 # 3. 确保 Neri 的 mods.json 条目，并把安装目录替换为 symlink。
 mkdir -p "$DEV/chrome/sine-mods"
 node - "$DAILY/chrome/sine-mods/mods.json" \
-        "$DEV/chrome/sine-mods/mods.json" <<'NODE'
+        "$DEV/chrome/sine-mods/mods.json" \
+        "$REPO/theme.json" <<'NODE'
 const fs = require("fs");
-const [srcPath, dstPath] = process.argv.slice(2);
+const [srcPath, dstPath, themePath] = process.argv.slice(2);
 const readJson = (path) =>
   fs.existsSync(path) ? JSON.parse(fs.readFileSync(path, "utf8")) : {};
 const src = readJson(srcPath);
 const dst = readJson(dstPath);
+const theme = readJson(themePath);
 const mod = dst["Neri"] || src["Neri"];
 if (!mod) {
   throw new Error("找不到 Neri 元数据，请先在某个 profile 安装一次");
 }
 mod.enabled = true;
 mod["no-updates"] = true;
+if (theme.style) mod.style = theme.style;
+if (theme.scripts) mod.scripts = theme.scripts;
+if (theme.chromeManifest) mod.chromeManifest = theme.chromeManifest;
+if (theme.version) mod.version = theme.version;
 dst["Neri"] = mod;
 fs.writeFileSync(dstPath, JSON.stringify(dst));
 NODE
@@ -105,8 +136,10 @@ readlink -f "$DEV/chrome/sine-mods/Neri"       # 必须输出 $REPO
 时从日常 profile 提取；复用的 profile 里其他 Mod 条目不会丢失。如果两个来源
 都没有 Neri，先在任意 profile 的 Sine 设置里安装一次，再重新执行这一步。
 
-脚本会把 `Neri` 的 `"no-updates"` 设为 `true`。Sine 更新或重装会替换文件夹并
-丢掉 symlink；这个设置可以避免正常启动时动它。
+脚本会用仓库的 `theme.json` 更新 `style`、`scripts`、`chromeManifest` 和
+`version`，所以新增模块或本地图标资源不需要重新安装。它还会把 `Neri` 的
+`"no-updates"` 设为 `true`。Sine 更新或重装会替换文件夹并丢掉 symlink；这个
+设置可以避免正常启动时动它。
 
 ### `user.js`
 
@@ -158,13 +191,15 @@ profile lock 误判为已有实例。
   **Open mod folder**。
 - 启动后 `ls -l "$DEV/chrome/sine-mods/Neri"` 仍然是 symlink。
 - Glance 以 90% × 90% 打开并居中。
+- 打开标签页、页面、工具栏右键菜单，常见项有 16px 图标，文字对齐。
 
 ## 日常循环
 
 | 改动 | 操作 |
 | --- | --- |
-| CSS（`tweaks/10-glance.css`） | 保存 → `Ctrl+Shift+Y` → **Refresh mod styles**。无需重启。 |
-| JS（`js/neri-glance.uc.js`） | 保存 → 重启 dev profile。 |
+| CSS（`tweaks/NN-*.css`） | 保存 → `Ctrl+Shift+Y` → **Refresh mod styles**。无需重启。 |
+| JS（`js/neri-*.uc.js`） | 保存 → 重启 dev profile。 |
+| `icons/` / `chrome.manifest` | 重新加载样式不足以验证新 URL；重启 dev profile。 |
 | `theme.json` 元数据 | 安装 mod 时读取，不是实时生效。本地开发忽略它；发布时才重要。 |
 | 行为变更 | 更新 [MODIFICATIONS.md](MODIFICATIONS.md) 中对应模块行。 |
 | `README.md` / `DEVELOPMENT.md` / `MODIFICATIONS.md` / `AGENTS.md` | 不需要浏览器操作。 |
@@ -200,9 +235,19 @@ profile lock 误判为已有实例。
 
   期望：`pctW` 和 `pctH` 为 `0.9`，`dx` 和 `dy` 在 1 像素以内为 `0`。
 
+- **右键菜单图标检查**：
+  - 打开 `#tabContextMenu`、`#contentAreaContextMenu`、`#toolbar-context-menu`
+    和 `#placesContext`。
+  - 常见项应有 16px 图标，文字左边界一致；菜单应带
+    `needsgutter="always"`。
+  - 主网页右键菜单的导航组（后退/前进/刷新/停止/书签）仍应保持原生 30px
+    图标。
+  - checkbox/radio 项（如全屏自动隐藏、媒体循环）不应被加上图标；书签
+    favicon 不应被覆盖。
+
 ### Headless 检查
 
-当前 Glance 模块的自动化检查使用一次性 profile，不要用 dev profile：
+当前模块的自动化检查使用一次性 profile，不要用 dev profile：
 
 ```bash
 MOZ_REMOTE_ALLOW_SYSTEM_ACCESS=1 \
@@ -212,8 +257,8 @@ MOZ_REMOTE_ALLOW_SYSTEM_ACCESS=1 \
 
 Marionette 的 chrome 上下文需要 `MOZ_REMOTE_ALLOW_SYSTEM_ACCESS=1`。连接后
 调用 `gZenGlanceManager.openGlance(...)`，并把
-`getBoundingClientRect()` 与 `gBrowser.tabpanels` 对比。当前 Glance 模块的
-几何检查就是这样跑的。
+`getBoundingClientRect()` 与 `gBrowser.tabpanels` 对比。Glance 几何和右键
+菜单图标都可以用同一套 Marionette chrome 上下文检查。
 
 ## 常见坑
 
@@ -226,13 +271,18 @@ Marionette 的 chrome 上下文需要 `MOZ_REMOTE_ALLOW_SYSTEM_ACCESS=1`。连�
 4. **`sine.allow-unsafe-js` 必须为 true**，否则 userscript 会被静默跳过，
    而且没有明显报错。
 5. **import 必须在普通规则之前。** 当前加载
-   `@import url("tweaks/10-glance.css");`；新增模块时按序号追加，全部放在
-   普通规则之前。
-6. **不要留旧文件。** mod 文件夹只应包含 `theme.json`、`userChrome.css`、
+   `tweaks/10-glance.css` 和 `tweaks/20-context-icons.css`；新增模块时按
+   序号追加，全部放在普通规则之前。
+6. **本地图标必须通过 `chrome.manifest`。** 不要写
+   `url("../icons/...")`；user sheet 会把它解析成 `chrome://global/...`。
+7. **`mods.json` 的 `chromeManifest` 只在安装时写入。** 下面的搭建脚本会
+   合并它；手动搭建的 profile 需要自行补上，否则 `chrome://neri` 不存在，
+   图标会加载失败。
+8. **不要留旧文件。** mod 文件夹只应包含 `theme.json`、`userChrome.css`、
    `userContent.css`、当前功能模块文件和文档。已删除的旧主网页 tweak
    （`00-tokens.css`、`10-webview-frame.css`、`20-wider-page.css`）不得重新
    引入。
-7. **作用域。** 每次改动只针对一个已登记的功能模块；未涉及的区域保持原生。
+9. **作用域。** 每次改动只针对一个已登记的功能模块；未涉及的区域保持原生。
    新功能可以改主网页、标签页、侧边栏等，但必须是该模块的明确目标，不能产生
    无关副作用。保持 [MODIFICATIONS.md](MODIFICATIONS.md) 中的范围清单最新。
 
@@ -244,4 +294,5 @@ Marionette 的 chrome 上下文需要 `MOZ_REMOTE_ALLOW_SYSTEM_ACCESS=1`。连�
 3. 更新 `README.md` 中的测试版本行。
 4. 检查 `git diff`；从仓库提交并推送。
 5. 在日常 profile 中通过 Sine 从仓库安装或更新（不要用 symlink），然后重启。
-6. 检查安装文件夹是否有旧文件，并确认当前功能按预期工作。
+6. 检查安装文件夹是否有旧文件；确认 `mods.json` 的 Neri 条目包含
+   `"chromeManifest": "chrome.manifest"`，并确认当前功能按预期工作。

@@ -1,0 +1,80 @@
+/* Neri — MingCute icons for browser context menus.
+ *
+ * The userscript only tags menu items with `data-neri-icon`; the icon URLs
+ * and slot activation stay in CSS. MingCute SVGs use a 24x24 viewBox and are
+ * scaled into the native 16px `.menu-icon` box.
+ *
+ * The native menu stylesheet resets `--menuitem-icon` on every menu item, so
+ * the mapped value must be `!important` to win when the item is rendered.
+ */
+menuitem[data-neri-icon],
+menu[data-neri-icon] {
+  --menuitem-icon: var(--neri-menu-icon) !important;
+}
+
+[data-neri-icon="add"] { --neri-menu-icon: url("chrome://neri/content/mingcute/add.svg"); }
+[data-neri-icon="ai"] { --neri-menu-icon: url("chrome://neri/content/mingcute/ai.svg"); }
+[data-neri-icon="archive"] { --neri-menu-icon: url("chrome://neri/content/mingcute/archive.svg"); }
+[data-neri-icon="book"] { --neri-menu-icon: url("chrome://neri/content/mingcute/book.svg"); }
+[data-neri-icon="bookmark_add"] { --neri-menu-icon: url("chrome://neri/content/mingcute/bookmark_add.svg"); }
+[data-neri-icon="bookmarks"] { --neri-menu-icon: url("chrome://neri/content/mingcute/bookmarks.svg"); }
+[data-neri-icon="check"] { --neri-menu-icon: url("chrome://neri/content/mingcute/check.svg"); }
+[data-neri-icon="close"] { --neri-menu-icon: url("chrome://neri/content/mingcute/close.svg"); }
+[data-neri-icon="code"] { --neri-menu-icon: url("chrome://neri/content/mingcute/code.svg"); }
+[data-neri-icon="container"] { --neri-menu-icon: url("chrome://neri/content/mingcute/container.svg"); }
+[data-neri-icon="copy"] { --neri-menu-icon: url("chrome://neri/content/mingcute/copy.svg"); }
+[data-neri-icon="cut"] { --neri-menu-icon: url("chrome://neri/content/mingcute/cut.svg"); }
+[data-neri-icon="delete"] { --neri-menu-icon: url("chrome://neri/content/mingcute/delete.svg"); }
+[data-neri-icon="devices"] { --neri-menu-icon: url("chrome://neri/content/mingcute/devices.svg"); }
+[data-neri-icon="down"] { --neri-menu-icon: url("chrome://neri/content/mingcute/down.svg"); }
+[data-neri-icon="download"] { --neri-menu-icon: url("chrome://neri/content/mingcute/download.svg"); }
+[data-neri-icon="edit"] { --neri-menu-icon: url("chrome://neri/content/mingcute/edit.svg"); }
+[data-neri-icon="external"] { --neri-menu-icon: url("chrome://neri/content/mingcute/external.svg"); }
+[data-neri-icon="eye"] { --neri-menu-icon: url("chrome://neri/content/mingcute/eye.svg"); }
+[data-neri-icon="eye_off"] { --neri-menu-icon: url("chrome://neri/content/mingcute/eye_off.svg"); }
+[data-neri-icon="folder"] { --neri-menu-icon: url("chrome://neri/content/mingcute/folder.svg"); }
+[data-neri-icon="folder_add"] { --neri-menu-icon: url("chrome://neri/content/mingcute/folder_add.svg"); }
+[data-neri-icon="folder_open"] { --neri-menu-icon: url("chrome://neri/content/mingcute/folder_open.svg"); }
+[data-neri-icon="folder_remove"] { --neri-menu-icon: url("chrome://neri/content/mingcute/folder_remove.svg"); }
+[data-neri-icon="fullscreen"] { --neri-menu-icon: url("chrome://neri/content/mingcute/fullscreen.svg"); }
+[data-neri-icon="fullscreen_exit"] { --neri-menu-icon: url("chrome://neri/content/mingcute/fullscreen_exit.svg"); }
+[data-neri-icon="grid"] { --neri-menu-icon: url("chrome://neri/content/mingcute/grid.svg"); }
+[data-neri-icon="group"] { --neri-menu-icon: url("chrome://neri/content/mingcute/group.svg"); }
+[data-neri-icon="history"] { --neri-menu-icon: url("chrome://neri/content/mingcute/history.svg"); }
+[data-neri-icon="image"] { --neri-menu-icon: url("chrome://neri/content/mingcute/image.svg"); }
+[data-neri-icon="info"] { --neri-menu-icon: url("chrome://neri/content/mingcute/info.svg"); }
+[data-neri-icon="link"] { --neri-menu-icon: url("chrome://neri/content/mingcute/link.svg"); }
+[data-neri-icon="mail"] { --neri-menu-icon: url("chrome://neri/content/mingcute/mail.svg"); }
+[data-neri-icon="monitor"] { --neri-menu-icon: url("chrome://neri/content/mingcute/monitor.svg"); }
+[data-neri-icon="move"] { --neri-menu-icon: url("chrome://neri/content/mingcute/move.svg"); }
+[data-neri-icon="mute"] { --neri-menu-icon: url("chrome://neri/content/mingcute/mute.svg"); }
+[data-neri-icon="note"] { --neri-menu-icon: url("chrome://neri/content/mingcute/note.svg"); }
+[data-neri-icon="palette"] { --neri-menu-icon: url("chrome://neri/content/mingcute/palette.svg"); }
+[data-neri-icon="paste"] { --neri-menu-icon: url("chrome://neri/content/mingcute/paste.svg"); }
+[data-neri-icon="pause"] { --neri-menu-icon: url("chrome://neri/content/mingcute/pause.svg"); }
+[data-neri-icon="phone"] { --neri-menu-icon: url("chrome://neri/content/mingcute/phone.svg"); }
+[data-neri-icon="pin"] { --neri-menu-icon: url("chrome://neri/content/mingcute/pin.svg"); }
+[data-neri-icon="pip"] { --neri-menu-icon: url("chrome://neri/content/mingcute/pip.svg"); }
+[data-neri-icon="play"] { --neri-menu-icon: url("chrome://neri/content/mingcute/play.svg"); }
+[data-neri-icon="print"] { --neri-menu-icon: url("chrome://neri/content/mingcute/print.svg"); }
+[data-neri-icon="private"] { --neri-menu-icon: url("chrome://neri/content/mingcute/private.svg"); }
+[data-neri-icon="redo"] { --neri-menu-icon: url("chrome://neri/content/mingcute/redo.svg"); }
+[data-neri-icon="refresh"] { --neri-menu-icon: url("chrome://neri/content/mingcute/refresh.svg"); }
+[data-neri-icon="screenshot"] { --neri-menu-icon: url("chrome://neri/content/mingcute/screenshot.svg"); }
+[data-neri-icon="search"] { --neri-menu-icon: url("chrome://neri/content/mingcute/search.svg"); }
+[data-neri-icon="send"] { --neri-menu-icon: url("chrome://neri/content/mingcute/send.svg"); }
+[data-neri-icon="settings"] { --neri-menu-icon: url("chrome://neri/content/mingcute/settings.svg"); }
+[data-neri-icon="share"] { --neri-menu-icon: url("chrome://neri/content/mingcute/share.svg"); }
+[data-neri-icon="sidebar"] { --neri-menu-icon: url("chrome://neri/content/mingcute/sidebar.svg"); }
+[data-neri-icon="sort"] { --neri-menu-icon: url("chrome://neri/content/mingcute/sort.svg"); }
+[data-neri-icon="speed"] { --neri-menu-icon: url("chrome://neri/content/mingcute/speed.svg"); }
+[data-neri-icon="split"] { --neri-menu-icon: url("chrome://neri/content/mingcute/split.svg"); }
+[data-neri-icon="tag"] { --neri-menu-icon: url("chrome://neri/content/mingcute/tag.svg"); }
+[data-neri-icon="text"] { --neri-menu-icon: url("chrome://neri/content/mingcute/text.svg"); }
+[data-neri-icon="translate"] { --neri-menu-icon: url("chrome://neri/content/mingcute/translate.svg"); }
+[data-neri-icon="undo"] { --neri-menu-icon: url("chrome://neri/content/mingcute/undo.svg"); }
+[data-neri-icon="unmute"] { --neri-menu-icon: url("chrome://neri/content/mingcute/unmute.svg"); }
+[data-neri-icon="unpin"] { --neri-menu-icon: url("chrome://neri/content/mingcute/unpin.svg"); }
+[data-neri-icon="up"] { --neri-menu-icon: url("chrome://neri/content/mingcute/up.svg"); }
+[data-neri-icon="warning"] { --neri-menu-icon: url("chrome://neri/content/mingcute/warning.svg"); }
+[data-neri-icon="window"] { --neri-menu-icon: url("chrome://neri/content/mingcute/window.svg"); }

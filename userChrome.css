@@ -4,9 +4,10 @@
  * appears above it, so a normal rule placed at the top will silently
  * disable every imported tweak.
  *
- * Each feature is an independent module. The current module is the Glance
- * preview (tweaks/10-glance.css); everything else is left native for now.
- * New modules get their own numbered file and import, and are registered in
- * MODIFICATIONS.md.
+ * Each feature is an independent module. Glance lives in
+ * tweaks/10-glance.css; context menu icons live in
+ * tweaks/20-context-icons.css. New modules get their own numbered file and
+ * import, and are registered in MODIFICATIONS.md.
  */
 @import url("tweaks/10-glance.css");
+@import url("tweaks/20-context-icons.css");

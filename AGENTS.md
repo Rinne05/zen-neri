@@ -28,6 +28,7 @@ Neri 是一个 native-first 的 Zen Browser 主题。**默认保持 Zen 原生�
 | 模块 | 文件 | 状态 |
 | --- | --- | --- |
 | Glance 预览 | `tweaks/10-glance.css`、`js/neri-glance.uc.js` | 已发布 |
+| 右键菜单图标 | `tweaks/20-context-icons.css`、`js/neri-context-icons.uc.js`、`icons/mingcute/`、`chrome.manifest` | 已实现 |
 
 新增模块后在此表追加一行，并同步更新 [MODIFICATIONS.md](MODIFICATIONS.md)。
 
@@ -36,7 +37,7 @@ Neri 是一个 native-first 的 Zen Browser 主题。**默认保持 Zen 原生�
 1. **定义范围。** 写清目标 UI、预期效果、明确不碰的区域。
 2. **新建模块。** 使用 `NN-<feature>.css` / `neri-<feature>.uc.js`。
 3. **注册。** 在 `userChrome.css` 的 import 区追加样式；在 `theme.json` 的
-   `scripts` 中追加脚本。
+   `scripts` 中追加脚本。需要本地图片时，同时登记 `chrome.manifest`。
 4. **实现。** 选择器尽量窄；复用原生变量、原生状态类和原生布局。
 5. **验证。** 在 dev profile 检查目标功能，并回归相邻 UI 非目标元素。
 6. **登记。** 在 [MODIFICATIONS.md](MODIFICATIONS.md) 增加或更新该模块一行；
